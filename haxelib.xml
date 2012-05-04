@@ -2,4 +2,5 @@
     <user name="aszlig"/>
     <description>Macros for writing (GreaseMonkey) userscripts.</description>
     <version name="0.1">Initial release, split up from https://github.com/imps/cncta.</version>
+    <depends name="jsmin"/>
 </project>
