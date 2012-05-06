@@ -5,7 +5,7 @@ import haxe.macro.Type;
 
 class Builder
 {
-    public static function extract_meta(cls:ClassType, file:String)
+    public static function extract_meta(cls:ClassType)
     {
         var meta = cls.meta.get();
         var usheader = MetaGenerator.generate(meta);
@@ -16,9 +16,25 @@ class Builder
             cls.meta.remove(m.name);
         }
 
-        var outfile = sys.io.File.write(file, false);
+        var filename:String = Builder.get_uscript_filename();
+        var outfile = sys.io.File.write(filename, false);
         outfile.writeString(usheader);
         outfile.close();
+    }
+
+    public static function get_uscript_filename():String
+    {
+        var file:String = haxe.macro.Compiler.getOutput();
+        var file_parts:Array<String> = file.split('.');
+
+        if (file_parts[file_parts.length - 1] == "js") {
+            file_parts.pop();
+        }
+
+        file_parts.push("user");
+        file_parts.push("js");
+
+        return file_parts.join('.');
     }
 
     @:macro public static function build():Array<Field>
@@ -26,7 +42,7 @@ class Builder
         switch (haxe.macro.Context.getLocalType()) {
             case TInst(c, _):
                 var cls = c.get();
-                Builder.extract_meta(cls, "cncta.user.js");
+                Builder.extract_meta(cls);
             default:
         }
 
