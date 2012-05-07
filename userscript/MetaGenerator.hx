@@ -38,11 +38,6 @@ class MetaGenerator
         out.close();
     }
 
-    public static function finalize(name:String, value:String):String
-    {
-        return "// @" + name + " " + value + "\n";
-    }
-
     public static function get_string_value(e:ExprDef):String
     {
         switch (e) {
@@ -92,7 +87,7 @@ class MetaGenerator
             for (p in m.params) {
                 var values = MetaGenerator.get_values(p.expr);
                 for (value in values) {
-                    out += MetaGenerator.finalize(name, value);
+                    out += "// @" + name + " " + value + "\n";
                 }
             }
         }
