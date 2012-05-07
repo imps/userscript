@@ -22,9 +22,11 @@ class Builder
         outfile.close();
     }
 
-    public static function get_uscript_filename():String
+    public static function get_uscript_filename(?file:String):String
     {
-        var file:String = haxe.macro.Compiler.getOutput();
+        if (file == null)
+            file = haxe.macro.Compiler.getOutput();
+
         var file_parts:Array<String> = file.split('.');
 
         if (file_parts[file_parts.length - 1] == "js") {
@@ -47,12 +49,5 @@ class Builder
         }
 
         return null;
-    }
-
-    public static function generate(infile:String, outfile:String)
-    {
-        var script = new MetaGenerator(outfile);
-        script.from_infile(infile);
-        script.write(outfile);
     }
 }
