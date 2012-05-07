@@ -4,6 +4,12 @@ import haxe.macro.Expr;
 
 class MetaGenerator
 {
+    public static var USERSCRIPT_VARIABLES = [
+        "name", "namespace", "version", "description", "downloadURL", "exclude",
+        "icon", "include", "match", "require", "resource", "run-at", "unwrap",
+        "updateURL"
+    ];
+
     private var template:String;
 
     public function new(template:String)
@@ -79,6 +85,9 @@ class MetaGenerator
 
         for (m in meta) {
             var name:String = m.name;
+
+            if (!Lambda.has(USERSCRIPT_VARIABLES, name))
+                continue;
 
             for (p in m.params) {
                 var values = MetaGenerator.get_values(p.expr);
