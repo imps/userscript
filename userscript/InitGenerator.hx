@@ -2,15 +2,8 @@ package userscript;
 
 import haxe.macro.Expr;
 
-class InitGenerator
+class InitGenerator extends Generator
 {
-    var meta:Metadata;
-
-    public function new(meta:Metadata)
-    {
-        this.meta = meta;
-    }
-
     public function get_init()
     {
         return "/* TODO */";
