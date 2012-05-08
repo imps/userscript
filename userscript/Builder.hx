@@ -8,8 +8,9 @@ class Builder
     public static function extract_meta(cls:ClassType)
     {
         var meta = cls.meta.get();
-        var usheader = MetaGenerator.generate(meta);
-        usheader += "\n#CODE_HERE#\n";
+        var template = new MetaGenerator(meta).generate();
+        template += Constants.CODE_PLACEHOLDER;
+        template += "\n";
 
         // remove all metadata
         for (m in meta) {
@@ -18,7 +19,7 @@ class Builder
 
         var filename:String = Builder.get_uscript_filename();
         var outfile = sys.io.File.write(filename, false);
-        outfile.writeString(usheader);
+        outfile.writeString(template);
         outfile.close();
     }
 

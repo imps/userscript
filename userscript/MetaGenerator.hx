@@ -4,41 +4,14 @@ import haxe.macro.Expr;
 
 class MetaGenerator
 {
-    public static var USERSCRIPT_VARIABLES = [
-        "name", "namespace", "version", "description", "downloadURL", "exclude",
-        "icon", "include", "match", "require", "resource", "run-at", "unwrap",
-        "updateURL"
-    ];
+    private var meta:Metadata;
 
-    private var template:String;
-
-    public function new(template:String)
+    public function new(meta:Metadata)
     {
-        this.template = sys.io.File.getContent(template);
+        this.meta = meta;
     }
 
-    public function from_infile(infile:String)
-    {
-        var code = new jsmin.JSMin(sys.io.File.getContent(infile)).output;
-
-        // XXX: Generate is hardcoded here, need to find a way to fix it...
-        var tpl:ITemplate = new core.Generate(code);
-
-        this.template = StringTools.replace(
-            this.template,
-            "#CODE_HERE#",
-            tpl.generate()
-        );
-    }
-
-    public function write(outfile:String)
-    {
-        var out = sys.io.File.write(outfile, false);
-        out.writeString(this.template);
-        out.close();
-    }
-
-    public static function get_string_value(e:ExprDef):String
+    private function get_string_value(e:ExprDef):String
     {
         switch (e) {
             case EConst(c):
@@ -53,7 +26,7 @@ class MetaGenerator
         return null;
     }
 
-    public static function get_values(e:ExprDef):Array<String>
+    private function get_values(e:ExprDef):Array<String>
     {
         var out:Array<String> = new Array();
 
@@ -66,7 +39,7 @@ class MetaGenerator
                 }
             case EArrayDecl(a):
                 for (val in a) {
-                    out.push(MetaGenerator.get_string_value(val.expr));
+                    out.push(this.get_string_value(val.expr));
                 }
             default:
         }
@@ -74,18 +47,18 @@ class MetaGenerator
         return out;
     }
 
-    public static function generate(meta:Metadata)
+    public function generate()
     {
         var out = "// ==UserScript==\n";
 
-        for (m in meta) {
+        for (m in this.meta) {
             var name:String = m.name;
 
-            if (!Lambda.has(USERSCRIPT_VARIABLES, name))
+            if (!Lambda.has(Constants.USERSCRIPT_VARIABLES, name))
                 continue;
 
             for (p in m.params) {
-                var values = MetaGenerator.get_values(p.expr);
+                var values = this.get_values(p.expr);
                 for (value in values) {
                     out += "// @" + name + " " + value + "\n";
                 }
