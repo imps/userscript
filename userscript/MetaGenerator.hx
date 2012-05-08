@@ -11,7 +11,10 @@ class MetaGenerator extends Generator
                 continue;
 
             for (value in m.values) {
-                out += "// @" + m.name + " " + value + "\n";
+                out += "// @";
+                out += StringTools.replace(m.name, "_", "-");
+                out += " " + value;
+                out += "\n";
             }
         }
 

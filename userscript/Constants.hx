@@ -4,7 +4,7 @@ class Constants
 {
     public static var USERSCRIPT_VARIABLES = [
         "name", "namespace", "version", "description", "downloadURL", "exclude",
-        "icon", "include", "match", "require", "resource", "run-at", "unwrap",
+        "icon", "include", "match", "require", "resource", "run_at", "unwrap",
         "updateURL"
     ];
 
