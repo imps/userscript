@@ -4,7 +4,18 @@ class InitGenerator extends Generator
 {
     public function get_init()
     {
-        return "/* TODO */";
+        var watcher = new userscript.generators.Watcher();
+        for (m in this.meta) {
+            if (m.name != "watch_for")
+                continue;
+
+            if (m.values.length != 2)
+                continue;
+
+            watcher.watch(m.values.first(), m.values.last());
+        }
+
+        return watcher.generate("userscript_main_code__()");
     }
 
     private function get_loader():String
