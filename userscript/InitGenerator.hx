@@ -1,7 +1,5 @@
 package userscript;
 
-import haxe.macro.Expr;
-
 class InitGenerator extends Generator
 {
     public function get_init()

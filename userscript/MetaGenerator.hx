@@ -1,7 +1,5 @@
 package userscript;
 
-import haxe.macro.Expr;
-
 class MetaGenerator extends Generator
 {
     public function generate()
@@ -9,16 +7,11 @@ class MetaGenerator extends Generator
         var out = "// ==UserScript==\n";
 
         for (m in this.meta) {
-            var name:String = m.name;
-
-            if (!Lambda.has(Constants.USERSCRIPT_VARIABLES, name))
+            if (!Lambda.has(Constants.USERSCRIPT_VARIABLES, m.name))
                 continue;
 
-            for (p in m.params) {
-                var values = this.get_values(p.expr);
-                for (value in values) {
-                    out += "// @" + name + " " + value + "\n";
-                }
+            for (value in m.values) {
+                out += "// @" + m.name + " " + value + "\n";
             }
         }
 
