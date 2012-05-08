@@ -1,0 +1,7 @@
+#!/usr/bin/env haxe
+-js example.js
+-lib userscript
+-main Example
+--next
+-lib userscript
+--macro userscript.UserScript.generate("example.js")
