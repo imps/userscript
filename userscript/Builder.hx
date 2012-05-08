@@ -9,8 +9,7 @@ class Builder
     {
         var meta = cls.meta.get();
         var template = new MetaGenerator(meta).generate();
-        template += Constants.CODE_PLACEHOLDER;
-        template += "\n";
+        template += "\n" + new InitGenerator(meta).generate();
 
         // remove all metadata
         for (m in meta) {
