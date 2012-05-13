@@ -1,6 +1,6 @@
 <project name="userscript" url="https://github.com/imps/userscript" license="BSD">
     <user name="aszlig"/>
     <description>Macros for writing (GreaseMonkey) userscripts.</description>
-    <version name="0.1">Initial release, split up from https://github.com/imps/cncta.</version>
+    <version name="0.1.1">Fix watch_for metadata with only one argument.</version>
     <depends name="jsmin"/>
 </project>
