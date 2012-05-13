@@ -9,10 +9,10 @@ class InitGenerator extends Generator
             if (m.name != "watch_for")
                 continue;
 
-            if (m.values.length != 2)
-                continue;
-
-            watcher.watch(m.values.first(), m.values.last());
+            if (m.values.length == 2)
+                watcher.watch(m.values.first(), m.values.last());
+            else if (m.values.length == 1)
+                watcher.watch(m.values.first());
         }
 
         return watcher.generate("userscript_main_code__()");
